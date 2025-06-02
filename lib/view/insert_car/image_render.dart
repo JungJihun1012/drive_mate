@@ -1,0 +1,206 @@
+import 'dart:io';
+
+import 'package:dirve_mate/view/login/widget/login_box.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
+
+const String headerIcon =
+    '''<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M240-40q-50 0-85-35t-35-85q0-50 35-85t85-35q14 0 26 3t23 8l57-71q-28-31-39-70t-5-78l-81-27q-17 25-43 40t-58 15q-50 0-85-35T0-580q0-50 35-85t85-35q50 0 85 35t35 85v8l81 28q20-36 53.5-61t75.5-32v-87q-39-11-64.5-42.5T360-840q0-50 35-85t85-35q50 0 85 35t35 85q0 42-26 73.5T510-724v87q42 7 75.5 32t53.5 61l81-28v-8q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-32 0-58.5-15T739-515l-81 27q6 39-5 77.5T614-340l57 70q11-5 23-7.5t26-2.5q50 0 85 35t35 85q0 50-35 85t-85 35q-50 0-85-35t-35-85q0-20 6.5-38.5T624-232l-57-71q-41 23-87.5 23T392-303l-56 71q11 15 17.5 33.5T360-160q0 50-35 85t-85 35ZM120-540q17 0 28.5-11.5T160-580q0-17-11.5-28.5T120-620q-17 0-28.5 11.5T80-580q0 17 11.5 28.5T120-540Zm120 420q17 0 28.5-11.5T280-160q0-17-11.5-28.5T240-200q-17 0-28.5 11.5T200-160q0 17 11.5 28.5T240-120Zm240-680q17 0 28.5-11.5T520-840q0-17-11.5-28.5T480-880q-17 0-28.5 11.5T440-840q0 17 11.5 28.5T480-800Zm0 440q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29Zm240 240q17 0 28.5-11.5T760-160q0-17-11.5-28.5T720-200q-17 0-28.5 11.5T680-160q0 17 11.5 28.5T720-120Zm120-420q17 0 28.5-11.5T880-580q0-17-11.5-28.5T840-620q-17 0-28.5 11.5T800-580q0 17 11.5 28.5T840-540ZM480-840ZM120-580Zm360 120Zm360-120ZM240-160Zm480 0Z"/></svg>''';
+const String cancelIcon =
+    ''' <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="m334-273.85 146-146 146 146L686.15-334l-146-146 146-146L626-686.15l-146 146-146-146L273.85-626l146 146-146 146L334-273.85ZM480.07-68q-85.48 0-160.69-32.44t-130.84-88.05q-55.63-55.61-88.09-130.79Q68-394.46 68-479.93q0-85.74 32.5-161.17 32.5-75.43 88.21-131.23 55.71-55.8 130.79-87.74Q394.57-892 479.93-892q85.73 0 161.15 31.92 75.43 31.92 131.24 87.71 55.81 55.79 87.75 131.21Q892-565.74 892-479.98q0 85.75-31.92 160.62t-87.7 130.6q-55.78 55.73-131.18 88.25Q565.8-68 480.07-68Zm-.07-86q136.51 0 231.26-94.74Q806-343.49 806-480t-94.74-231.26Q616.51-806 480-806t-231.26 94.74Q154-616.51 154-480t94.74 231.26Q343.49-154 480-154Zm0-326Z"/></svg> ''';
+const String directionsCarIcon =
+    ''' <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M226.61-206v46q0 14.45-10.62 24.22-10.63 9.78-25.67 9.78H160.3q-15.05 0-25.67-9.78Q124-145.55 124-160v-318.92L209.69-720q5.11-15.57 18.69-24.78 13.58-9.22 30.24-9.22h444.3q16.08 0 29.19 9.35 13.12 9.35 18.2 24.65L836-478.92V-160q0 14.45-10.63 24.22Q814.75-126 799.7-126h-30.02q-15.04 0-25.67-9.78-10.62-9.77-10.62-24.22v-46H226.61Zm-4.3-342.92h515.38L689.23-684H270.77l-48.46 135.08Zm-28.31 70V-276v-202.92Zm102.55 156.77q22.83 0 39.53-16.79 16.69-16.78 16.69-39.61t-16.78-39.53q-16.79-16.69-39.62-16.69t-39.52 16.78q-16.7 16.79-16.7 39.62t16.79 39.52q16.78 16.7 39.61 16.7Zm367.08 0q22.83 0 39.52-16.79 16.7-16.78 16.7-39.61t-16.79-39.53q-16.78-16.69-39.61-16.69t-39.53 16.78q-16.69 16.79-16.69 39.62t16.78 39.52q16.79 16.7 39.62 16.7ZM194-276h572v-202.92H194V-276Z"/></svg> ''';
+const String pinIcn =
+    ''' <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M166.31-150q-41.03 0-69.67-28.64T68-248.31v-463.38q0-41.03 28.64-69.67T166.31-810h627.38q41.03 0 69.67 28.64T892-711.69v463.38q0 41.03-28.64 69.67T793.69-150H166.31Zm88.77-206.31h47.07v-247.38h-37.38l-71.69 52.46L218-514.62l37.08-25.53v183.84Zm127.23 0h159.38v-43.38h-95.08l-3.23-.77q22.47-21.08 36.54-35.66 14.08-14.57 20.54-21.42 17.23-17.61 26.46-36.04 9.23-18.42 9.23-40.05 0-30.6-22.11-50.33-22.12-19.73-56.54-19.73-25.58 0-47.81 15.84-22.23 15.85-30.61 40.71l41.38 16.06q5.39-13 15.46-20.5 10.08-7.5 22.08-7.5 15.27 0 24.79 7.08t9.52 20.48q0 11.29-4.39 20.79-4.38 9.5-18.38 24.27-8.62 9.77-30.66 30.92-22.03 21.16-56.57 56.31v42.92Zm301.69 0q35.88 0 58.02-19.92 22.13-19.92 22.13-53.77 0-18.92-9.07-32.73Q746-476.54 727.85-486v-2.4q14.53-7.68 21.42-20.29 6.88-12.62 6.88-29.77 0-28.74-20.79-46.99-20.78-18.24-53.36-18.24-29.85 0-51.5 17t-25.42 35.15l42.61 16.46q5.39-12.61 14.32-18.92 8.93-6.31 20.2-6.31 12.94 0 21.52 6.58t8.58 17.93q0 13.74-10.22 21.92-10.21 8.19-26.09 8.19h-19.69v43.38H678q20.2 0 31.25 7.08 11.06 7.08 11.06 21.32 0 13.3-10.58 23.15-10.58 9.84-25.23 9.84-16.39 0-26.03-7.94-9.64-7.95-16.78-27.29l-42.61 17.69q8.77 29.69 30.5 45.92T684-356.31ZM172.31-242h615.38q5.39 0 8.85-3.46t3.46-8.85v-451.38q0-5.39-3.46-8.85t-8.85-3.46H172.31q-5.39 0-8.85 3.46t-3.46 8.85v451.38q0 5.39 3.46 8.85t8.85 3.46ZM160-242v-476 476Z"/></svg> ''';
+const String imageIcon =
+    ''' <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm40-80h480L570-480 450-320l-90-120-120 160Zm-40 80v-560 560Z"/></svg> ''';
+
+class ImageRender extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _ImageState();
+}
+
+class _ImageState extends State<ImageRender> {
+  XFile? image;
+  final ImagePicker picker = ImagePicker();
+
+  Future<XFile?> getImage(ImageSource imageSource) async {
+    final XFile? pickedFile = await picker.pickImage(source: imageSource);
+    if (pickedFile != null) {
+      return XFile(pickedFile.path);
+    }
+
+    return null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: 20),
+      child: SizedBox(
+        width: 400,
+        height: 60,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.red.shade900,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              backgroundColor: Color.fromARGB(220, 230, 230, 230),
+              builder: (context) {
+                return StatefulBuilder(builder: (context, setState) {
+                  return SizedBox(
+                    width: double.infinity,
+                    height: 600,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 10,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '차량등록하기',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    Navigator.pop(context);
+                                  });
+                                },
+                                icon: SvgPicture.string(cancelIcon, height: 50),
+                              ),
+                            ],
+                          ),
+                        ),
+                        LoginBoxWidget(
+                          text: '차량이름',
+                          icon: directionsCarIcon,
+                          width: 430,
+                          height: 55,
+                        ),
+                        SizedBox(height: 20),
+                        LoginBoxWidget(
+                          text: '차량 번호',
+                          icon: pinIcn,
+                          width: 430,
+                          height: 55,
+                        ),
+                        SizedBox(height: 20),
+                        Builder(
+                          builder: (context) {
+                            final iconWidget =
+                            image != null
+                                ? Image.file(File(image!.path))
+                                : SvgPicture.string(imageIcon, height: 70);
+                            final color =
+                            image != null
+                                ? Colors.transparent
+                                : Colors.grey;
+
+                            return Container(
+                              width: 430,
+                              height: 170,
+                              color: color,
+                              child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    showDialog(
+                                      context: context,
+                                      builder:
+                                          (context) => AlertDialog(
+                                        backgroundColor: Colors.grey,
+                                        actionsAlignment:
+                                        MainAxisAlignment.center,
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              getImage(
+                                                ImageSource.camera,
+                                              ).then((file) {
+                                                setState(() {
+                                                  image = file;
+                                                });
+                                              });
+                                            },
+                                            child: Text('카메라'),
+                                          ),
+                                          TextButton(
+                                            onPressed:
+                                                () => setState(() {
+                                              getImage(
+                                                ImageSource.gallery,
+                                              );
+                                            }),
+                                            child: Text('갤러리'),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  });
+                                },
+                                icon: iconWidget,
+                              ),
+                            );
+                          },
+                        ),
+                        SizedBox(height: 10),
+                        Text('이미지를 선택해주세요.', style: TextStyle(fontSize: 20)),
+                        Text(
+                          '갤러리 앱 또는 카메라를 이용하실 수 있습니다.',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        SizedBox(height: 20),
+                        SizedBox(
+                          width: 430,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed:
+                                () => setState(() {
+                              Navigator.pop(context);
+                            }),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red.shade900,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              '차량 등록 후 이용하기',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                });
+              }
+            ).whenComplete(() {
+              image = null;
+            });
+          },
+          child: Text(
+            '차량 등록 후 아용하기',
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+        ),
+      ),
+    );
+  }
+}
