@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:dirve_mate/view/animated/init_animation.dart';
-import 'package:dirve_mate/view/login/login.dart';
+import 'package:dirve_mate/Amodule/view/animated/init_animation.dart';
+import 'package:dirve_mate/Amodule/view/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:dirve_mate/view/login/widget/login_box.dart';
+import 'package:dirve_mate/Amodule/view/login/widget/login_box.dart';
+import 'package:dirve_mate/Amodule/view/login/widget/login_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,6 +18,11 @@ const String imageIcon =
     ''' <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm40-80h480L570-480 450-320l-90-120-120 160Zm-40 80v-560 560Z"/></svg> ''';
 
 class ImageRender extends StatefulWidget {
+  final String text;
+  final Color color;
+  final Color textColor;
+  const ImageRender({super.key, required this.text, required this.color, required this.textColor});
+
   @override
   State<StatefulWidget> createState() => _ImageState();
 }
@@ -37,13 +43,13 @@ class _ImageState extends State<ImageRender> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 20),
+      padding: EdgeInsets.only(top: 0),
       child: SizedBox(
         width: 400,
         height: 60,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.red.shade900,
+            backgroundColor: this.widget.color,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -196,8 +202,8 @@ class _ImageState extends State<ImageRender> {
             });
           },
           child: Text(
-            '차량 등록 후 아용하기',
-            style: TextStyle(color: Colors.white, fontSize: 20),
+            this.widget.text,
+            style: TextStyle(color: this.widget.textColor, fontSize: 20),
           ),
         ),
       ),

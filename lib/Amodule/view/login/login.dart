@@ -1,9 +1,10 @@
-import 'package:dirve_mate/view/button_widget.dart';
-import 'package:dirve_mate/view/header_widget.dart';
-import 'package:dirve_mate/view/insert_car/insert_car.dart';
-import 'package:dirve_mate/view/login/widget/cupertino_switch_button.dart';
-import 'package:dirve_mate/view/login/widget/footer_widget.dart';
-import 'package:dirve_mate/view/login/widget/login_box.dart';
+import 'package:dirve_mate/Amodule/view/button_widget.dart';
+import 'package:dirve_mate/Amodule/view/header_widget.dart';
+import 'package:dirve_mate/Amodule/view/insert_car/insert_car.dart';
+import 'package:dirve_mate/Amodule/view/login/widget/cupertino_switch_button.dart';
+import 'package:dirve_mate/Amodule/view/login/widget/footer_widget.dart';
+import 'package:dirve_mate/Amodule/view/login/widget/login_box.dart';
+import 'package:dirve_mate/Amodule/view/login/widget/remember_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -128,18 +129,8 @@ class _LoginValidateState extends State<LoginPage> {
                       ],
                     )
                 )
-            )
-            ,
-            Padding(
-              padding: EdgeInsets.only(top: 30, left: 40),
-              child: Row(
-                spacing: 20,
-                children: [
-                  CupertinoSwitchButton(),
-                  Text('Remember', style: TextStyle(color: Colors.white, fontSize: 20),)
-                ],
-              ),
             ),
+            RememberWidget(),
             Padding(
                 padding: EdgeInsets.only(top: 20),
               child: SizedBox(

@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:dirve_mate/view/button_widget.dart';
-import 'package:dirve_mate/view/header_widget.dart';
-import 'package:dirve_mate/view/insert_car/image_render.dart';
-import 'package:dirve_mate/view/login/widget/login_box.dart';
+import 'package:dirve_mate/Amodule/view/button_widget.dart';
+import 'package:dirve_mate/Amodule/view/header_widget.dart';
+import 'package:dirve_mate/Amodule/view/insert_car/image_render.dart';
+import 'package:dirve_mate/Amodule/view/login/widget/login_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -44,7 +44,7 @@ class Insert extends StatelessWidget {
               HeaderWidget(headerIcon: headerIcon),
               SizedBox(height: 100,),
               Image(image: AssetImage('assets/images/front-car.webp')),
-              ImageRender()
+              ImageRender(text: '차량 등록 후 이용하기', color: Colors.red.shade900, textColor: Colors.white,)
             ],
           ),
         ),
