@@ -1,7 +1,10 @@
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:dirve_mate/Amodule/view/button_widget.dart';
 import 'package:dirve_mate/Amodule/view/header_widget.dart';
 import 'package:dirve_mate/Amodule/view/insert_car/image_render.dart';
 import 'package:dirve_mate/Amodule/view/login/widget/remember_widget.dart';
+import 'package:dirve_mate/Bmodule/view/home/home_page.dart';
+import 'package:dirve_mate/Bmodule/view/home/widget/image_slide.dart';
 import 'package:dirve_mate/Bmodule/view/select/widget/slide_widget.dart';
 import 'package:flutter/material.dart';
 const String headerIcon =
@@ -29,11 +32,50 @@ class SelectCar extends StatelessWidget {
             spacing: 20,
             children: [
               SizedBox(height: 100,),
-              HeaderWidget(headerIcon: headerIcon),
+              HeaderWidget(headerIcon: headerIcon, height: 60, fontSize: 40,),
               // SlideWidget()
-              Image(image: AssetImage('assets/images/red_car.png')),
+              ImageSlide(),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     IconButton(
+              //         onPressed: () {
+              //
+              //         },
+              //         icon: Icon(Icons.keyboard_arrow_left, size: 50, color: Colors.white,)
+              //     ),
+              //     Image(image: AssetImage('assets/images/red_car.png'), height: 200),
+              //     IconButton(
+              //         onPressed: () {
+              //
+              //         },
+              //         icon: Icon(Icons.keyboard_arrow_right, size: 50, color: Colors.white,)
+              //     )
+              //   ],
+              // ),
               RememberWidget(),
-              ButtonWidget(text: '이 차량 선택하기'),
+              Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: SizedBox(
+                  width: 400,
+                  height: 60,
+                  child: ElevatedButton(
+                      onPressed: () {
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red.shade900,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)
+                          )
+                      ),
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => Home(),));
+                          },
+                          child:Text('이 차량 선택하기', style: TextStyle(color: Colors.white, fontSize: 20),))
+                      ),
+                ),
+              ),
               ImageRender(text: '차량 등록하기', color: Colors.black, textColor: Colors.brown.shade400,)
             ],
           ),

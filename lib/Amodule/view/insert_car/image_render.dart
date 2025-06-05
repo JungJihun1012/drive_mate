@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:dirve_mate/Amodule/view/login/widget/login_box.dart';
 import 'package:dirve_mate/Amodule/view/login/widget/login_box.dart';
+import 'package:dirve_mate/Bmodule/view/home/home_page.dart';
+import 'package:dirve_mate/Bmodule/view/select/select_car.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -28,6 +30,7 @@ class ImageRender extends StatefulWidget {
 }
 
 class _ImageState extends State<ImageRender> {
+  final _formKey = GlobalKey<FormState>();
   XFile? image;
   final ImagePicker picker = ImagePicker();
 
@@ -63,136 +66,219 @@ class _ImageState extends State<ImageRender> {
                   return SizedBox(
                     width: double.infinity,
                     height: 600,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 10,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                '차량등록하기',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
+                    child: Form(
+                      key: _formKey,
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 10,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '차량등록하기',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        Navigator.pop(context);
+                                      });
+                                    },
+                                    icon: SvgPicture.string(cancelIcon, height: 50),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 430,
+                              height: 55,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10)
+                                ),
+                                child: Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.string(directionsCarIcon, height: 30, colorFilter: ColorFilter.mode(Colors.grey, BlendMode.srcIn),),
+                                        SizedBox(
+                                          width: 150,
+                                          height: double.infinity,
+                                          child: TextFormField(
+                                            validator: (value) {
+                                              if(value.toString().length <4) {
+                                                return '4자 이상 가능';
+                                              }
+                                              return null;
+                                            },
+                                            decoration: InputDecoration(
+                                                hintText: '차량 이름',
+                                                hintStyle: TextStyle(color: Colors.grey, fontSize: 17),
+                                                enabledBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide.none,
+                                                ),
+                                                focusedBorder: OutlineInputBorder(
+                                                    borderSide: BorderSide.none
+                                                )
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    )
                                 ),
                               ),
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    Navigator.pop(context);
-                                  });
-                                },
-                                icon: SvgPicture.string(cancelIcon, height: 50),
-                              ),
-                            ],
-                          ),
-                        ),
-                        LoginBoxWidget(
-                          text: '차량이름',
-                          icon: directionsCarIcon,
-                          width: 430,
-                          height: 55,
-                        ),
-                        SizedBox(height: 20),
-                        LoginBoxWidget(
-                          text: '차량 번호',
-                          icon: pinIcn,
-                          width: 430,
-                          height: 55,
-                        ),
-                        SizedBox(height: 20),
-                        Builder(
-                          builder: (context) {
-                            final iconWidget =
-                            image != null
-                                ? Image.file(File(image!.path))
-                                : SvgPicture.string(imageIcon, height: 70);
-                            final color =
-                            image != null
-                                ? Colors.transparent
-                                : Colors.grey;
-
-                            return Container(
-                              width: 430,
-                              height: 170,
-                              color: color,
-                              child: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    showDialog(
-                                      context: context,
-                                      builder:
-                                          (context) => AlertDialog(
-                                        backgroundColor: Colors.grey,
-                                        actionsAlignment:
-                                        MainAxisAlignment.center,
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              getImage(
-                                                ImageSource.camera,
-                                              ).then((file) {
-                                                setState(() {
-                                                  image = file;
-                                                });
-                                              });
+                            ),
+                            SizedBox(height: 20),
+                            SizedBox(
+                              width: 400,
+                              height: 65,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10)
+                                ),
+                                child: Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.string(pinIcn, height: 30, colorFilter: ColorFilter.mode(Colors.grey, BlendMode.srcIn),),
+                                        SizedBox(
+                                          width: 150,
+                                          height: double.infinity,
+                                          child: TextFormField(
+                                            validator: (value) {
+                                              if(value.toString().length <4) {
+                                                return '4자 이상 가능';
+                                              }
+                                              return null;
                                             },
-                                            child: Text('카메라'),
+                                            decoration: InputDecoration(
+                                                hintText: '차량 번호',
+                                                hintStyle: TextStyle(color: Colors.grey, fontSize: 17),
+                                                enabledBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide.none,
+                                                ),
+                                                focusedBorder: OutlineInputBorder(
+                                                    borderSide: BorderSide.none
+                                                )
+                                            ),
                                           ),
-                                          TextButton(
-                                            onPressed:
-                                                () => setState(() {
-                                              getImage(
-                                                ImageSource.gallery,
-                                              );
-                                            }),
-                                            child: Text('갤러리'),
+                                        )
+                                      ],
+                                    )
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            Builder(
+                              builder: (context) {
+                                final iconWidget =
+                                image != null
+                                    ? Image.file(File(image!.path))
+                                    : SvgPicture.string(imageIcon, height: 70);
+                                final color =
+                                image != null
+                                    ? Colors.transparent
+                                    : Colors.grey;
+
+                                return Container(
+                                  width: 430,
+                                  height: 170,
+                                  color: color,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        showDialog(
+                                          context: context,
+                                          builder:
+                                              (context) => AlertDialog(
+                                            backgroundColor: Colors.grey,
+                                            actionsAlignment:
+                                            MainAxisAlignment.center,
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  getImage(
+                                                    ImageSource.camera,
+                                                  ).then((file) {
+                                                    setState(() {
+                                                      image = file;
+                                                    });
+                                                  });
+                                                },
+                                                child: Text('카메라'),
+                                              ),
+                                              TextButton(
+                                                onPressed:
+                                                    () => setState(() {
+                                                  getImage(
+                                                    ImageSource.gallery,
+                                                  );
+                                                }),
+                                                child: Text('갤러리'),
+                                              ),
+                                            ],
                                           ),
-                                        ],
+                                        );
+                                      });
+                                    },
+                                    icon: iconWidget,
+                                  ),
+                                );
+                              },
+                            ),
+                            SizedBox(height: 10),
+                            Text('이미지를 선택해주세요.', style: TextStyle(fontSize: 20)),
+                            Text(
+                              '갤러리 앱 또는 카메라를 이용하실 수 있습니다.',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            SizedBox(height: 20),
+                            SizedBox(
+                              width: 430,
+                              height: 50,
+                              child: ElevatedButton(
+                                onPressed:
+                                    () => setState(() {
+                                  Navigator.pop(context);
+                                }),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.red.shade900,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        var validationResult = _formKey.currentState?.validate() ?? false;
+                                        if(validationResult) {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (_) => SelectCar()));
+                                        }
+                                      });
+                                    },
+                                    child: Text(
+                                      '차량 등록 후 이용하기',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
                                       ),
-                                    );
-                                  });
-                                },
-                                icon: iconWidget,
-                              ),
-                            );
-                          },
-                        ),
-                        SizedBox(height: 10),
-                        Text('이미지를 선택해주세요.', style: TextStyle(fontSize: 20)),
-                        Text(
-                          '갤러리 앱 또는 카메라를 이용하실 수 있습니다.',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        SizedBox(height: 20),
-                        SizedBox(
-                          width: 430,
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed:
-                                () => setState(() {
-                              Navigator.pop(context);
-                            }),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red.shade900,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                    )
+                                ) ,
                               ),
                             ),
-                            child: Text(
-                              '차량 등록 후 이용하기',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                          ],
+                        )
                     ),
                   );
                 });

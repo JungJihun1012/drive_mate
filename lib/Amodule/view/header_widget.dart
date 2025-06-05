@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HeaderWidget extends StatelessWidget {
+  final double height;
   final String headerIcon;
-  HeaderWidget({super.key, required this.headerIcon});
+  final double fontSize;
+  HeaderWidget({super.key, required this.headerIcon, required this.height, required this.fontSize});
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -12,7 +14,7 @@ class HeaderWidget extends StatelessWidget {
       children: [
         SvgPicture.string(
           headerIcon,
-          height: 60,
+          height: this.height,
           colorFilter: ColorFilter.mode(
             Colors.brown.shade400,
             BlendMode.srcIn,
@@ -21,7 +23,7 @@ class HeaderWidget extends StatelessWidget {
         Text(
           'Drive Mate',
           style: TextStyle(
-            fontSize: 40,
+            fontSize: this.fontSize,
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),

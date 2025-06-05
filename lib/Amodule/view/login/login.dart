@@ -33,7 +33,7 @@ class _LoginValidateState extends State<LoginPage> {
       body: SizedBox(
         child: Column(
           children: [
-            HeaderWidget(headerIcon: headerIcon),
+            HeaderWidget(fontSize: 40,headerIcon: headerIcon, height: 60,),
             Image(image: AssetImage('assets/images/red_car.png')),
             Text(
               '로그인 정보를 입력하세요.',
@@ -140,7 +140,9 @@ class _LoginValidateState extends State<LoginPage> {
                     onPressed: () {
                       setState(() {
                         validationResult = _formKey.currentState?.validate() ?? false;
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => Insert()));
+                        if(validationResult) {
+                          Navigator.push(context, MaterialPageRoute(builder: (_) => Insert()));
+                        }
                       });
 
                     },

@@ -41,7 +41,7 @@ class Insert extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: 100,),
-              HeaderWidget(headerIcon: headerIcon),
+              HeaderWidget(headerIcon: headerIcon, height: 60, fontSize: 40,),
               SizedBox(height: 100,),
               Image(image: AssetImage('assets/images/front-car.webp')),
               ImageRender(text: '차량 등록 후 이용하기', color: Colors.red.shade900, textColor: Colors.white,)

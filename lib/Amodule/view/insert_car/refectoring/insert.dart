@@ -1,4 +1,4 @@
-import 'package:dirve_mate/view/header_widget.dart';
+import 'package:dirve_mate/Amodule/view/header_widget.dart';
 import 'package:flutter/material.dart';
 
 const String headerIcon =
@@ -27,7 +27,7 @@ class InsertAction extends StatelessWidget {
               SizedBox(
                 height: 100,
               ),
-              HeaderWidget(headerIcon: headerIcon),
+              HeaderWidget(headerIcon: headerIcon, height: 60, fontSize: 40,),
               SizedBox(height: 100,),
               Image(image: AssetImage('assets/images/front-car.webp')),
             ],
